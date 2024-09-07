@@ -5,7 +5,7 @@ int main()
     //Display variables
     int num1, num2, result;
     //Request user input
-    printf("Basic Multuplication"/n/n); 
+    printf("Basic Multiplication\n\n"); 
     printf("Enter the first integer: ");
     scanf("%d", &num1);
     printf("Enter the second integer: ");
