@@ -1,17 +1,19 @@
-int main() {
+#include <stdio.h>
+
+int main()
+{
+    //Display variables
     int num1, num2, result;
-
-    printf("Basic Multuplication"); 
-
-    printf("Enter the first interger: ");
+    //Request user input
+    printf("Basic Multuplication"/n/n); 
+    printf("Enter the first integer: ");
     scanf("%d", &num1);
-
-    printf("Enter the second interger: ");
+    printf("Enter the second integer: ");
     scanf("%d", &num2);
-
+    //Display result
     result = num1 * num2;
 
-    printf("Multiplication of %d and %d is: %d\n", num1, num2, result);
+    printf("The product of %d and %d is: %d\n", num1, num2, result);
 
     return 0;
 }
