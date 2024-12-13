@@ -1,56 +1,56 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-#define MAXLINE 1000  //maximum input line size
+#define MAXLINE 1000 // Maximum input line size
 
-int max;  //maximum length seen so far
-char line[MAXLINE]; //current input line
-char longest[MAXLINE]; //longest line saved here
+// Function prototypes
+int getLine(char line[], int maxline);
+void copy(char to[], const char from[]);
 
-int getline(void);
-void copy(void);
+int main(void) {
+    int len;              // Current line length
+    int max = 0;          // Maximum length seen so far
+    char line[MAXLINE];   // Current input line
+    char longest[MAXLINE]; // Longest line saved here
 
-int main()
-{
-    int len;
-    extern int max;
-    extern char longest[];
-
-    max = 0;
-    while ((len = getline()) > 0)
-        if (len > max){
+    // Read lines and track the longest
+    while ((len = getLine(line, MAXLINE)) > 0) {
+        if (len > max) {
             max = len;
-            copy();
+            copy(longest, line);
         }
-    if (max > 0) //There was a line
-        print("%s", longest);
-    return 0;
+    }
+
+    // Print the longest line if any
+    if (max > 0) {
+        printf("Longest line (%d characters):\n%s", max, longest);
+    }
+
+    return EXIT_SUCCESS; // Indicate successful execution
 }
 
-//getline: specialized version
-int getline(void)
-{
+/**
+ * Reads a line into 's', up to a maximum length 'lim'.
+ * Returns the length of the line read.
+ */
+int getLine(char s[], int lim) {
     int c, i;
-    extern char line[];
 
-    for (i = 0; i < MAXLINE-1
-        && (c=getchar())  != EOF && c != '\n'; ++i)
-            line[i] = c;
-    if (c == '\n') {
-        line[i] = c;
-        ++i;
+    for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; ++i) {
+        s[i] = c;
     }
-    line[i] = '\0';
+    if (c == '\n') {
+        s[i++] = c; // Add newline character to the line
+    }
+    s[i] = '\0'; // Null-terminate the string
     return i;
 }
 
-//copy: specialized version
-void copy(void)
-{
-    int i;
-    extern char line[], longest[];
+ void copy(char to[], const char from[]) {
+    int i = 0;
+    while ((to[i] = from[i]) != '\0') {
+        ++i;
+    }
 
-    i = 0;
-    while ((longest[i] = line[i]) != '\0')
-        
-  return 0;
+ 
 }
