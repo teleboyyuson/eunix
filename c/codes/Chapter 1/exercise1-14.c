@@ -1,74 +1,66 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#define MAX_WORD_LENGTH 20  // Maximum word length to track
-#define IN  1               // Inside a word
-#define OUT 0               // Outside a word
+#define CHAR_RANGE 128 // Range of ASCII characters (0-127)
 
-void print_horizontal_histogram(int word_lengths[], int max_length);
-void print_vertical_histogram(int word_lengths[], int max_length);
+void print_vertical_histogram(int frequencies[], int range);
 
 int main() {
-    int c, state = OUT;
-    int word_lengths[MAX_WORD_LENGTH + 1] = {0};
-    int current_length = 0;
+    int c;
+    int frequencies[CHAR_RANGE] = {0};
 
     printf("Enter text (Ctrl+D to end input):\n");
 
+    // Read input and count frequencies of each character
     while ((c = getchar()) != EOF) {
-        if (isspace(c)) {
-            if (state == IN) {
-                // End of a word
-                state = OUT;
-                if (current_length <= MAX_WORD_LENGTH) {
-                    word_lengths[current_length]++;
-                }
-                current_length = 0;
-            }
-        } else {
-            // Inside a word
-            state = IN;
-            current_length++;
+        if (c >= 0 && c < CHAR_RANGE) {
+            frequencies[c]++;
         }
     }
 
-    // Handle the last word in the input
-    if (current_length > 0 && current_length <= MAX_WORD_LENGTH) {
-        word_lengths[current_length]++;
-    }
-
-    printf("\nVertical Histogram of Word Lengths:\n");
-    print_vertical_histogram(word_lengths, MAX_WORD_LENGTH);
+    printf("\nVertical Histogram of Character Frequencies:\n");
+    print_vertical_histogram(frequencies, CHAR_RANGE);
 
     return 0;
 }
 
 // Function to print a vertical histogram
-void print_vertical_histogram(int word_lengths[], int max_length) {
-    int max_count = 0;
+void print_vertical_histogram(int frequencies[], int range) {
+    int max_frequency = 0;
 
-    // Find the maximum count for scaling the histogram
-    for (int i = 1; i <= max_length; i++) {
-        if (word_lengths[i] > max_count) {
-            max_count = word_lengths[i];
+    // Find the maximum frequency
+    for (int i = 0; i < range; i++) {
+        if (frequencies[i] > max_frequency) {
+            max_frequency = frequencies[i];
         }
     }
 
     // Print the histogram vertically
-    for (int row = max_count; row > 0; row--) {
-        for (int length = 1; length <= max_length; length++) {
-            if (word_lengths[length] >= row) {
-                printf("  #  ");
-            } else {
-                printf("     ");
+    for (int row = max_frequency; row > 0; row--) {
+        for (int i = 0; i < range; i++) {
+            if (frequencies[i] > 0) { // Only include characters that appear in input
+                if (frequencies[i] >= row) {
+                    printf("  #  ");
+                } else {
+                    printf("     ");
+                }
             }
         }
         printf("\n");
     }
 
-    // Print the base with word lengths
-    for (int length = 1; length <= max_length; length++) {
-        printf(" %3d ", length);
+    // Print the character labels
+    for (int i = 0; i < range; i++) {
+        if (frequencies[i] > 0) {
+            if (isprint(i)) { // Printable character
+                printf("  %c  ", i);
+            } else { // Non-printable character
+                printf(" %02X  ", i);
+            }
+        }
+    }
+    printf("\n");
+}
     }
     printf("\n");
 }
